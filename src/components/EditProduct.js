@@ -1,174 +1,215 @@
-import React, { Component } from 'react';
-import Axios from 'axios';
+import React, { Component } from "react";
+import Axios from "axios";
+import { Form, Col, Row, Button } from "react-bootstrap";
 
 class EditProduct extends Component {
-    constructor(props){
-        super(props);
-        this.onChangeName = this.onChangeName.bind(this);
-        this.onChangeImage = this.onChangeImage.bind(this);
-        this.onChangePrice = this.onChangePrice.bind(this);
-        this.onChangeIdCategory = this.onChangeIdCategory.bind(this);
-        this.onChangeStock = this.onChangeStock.bind(this);
-        // this.onSubmit = this.onSubmit.bind(this);
-        
-        this.state = {
-            name:'',
-            image: null,
-            price: '',
-            id_categori: '',
-            stock: ''
-        }
+  constructor(props) {
+    super(props);
+    this.onChangeName = this.onChangeName.bind(this);
+    this.onChangeImage = this.onChangeImage.bind(this);
+    this.onChangePrice = this.onChangePrice.bind(this);
+    this.onChangeIdCategory = this.onChangeIdCategory.bind(this);
+    this.onChangeStock = this.onChangeStock.bind(this);
+    // this.onSubmit = this.onSubmit.bind(this);
+
+    this.state = {
+      name: "",
+      image: null,
+      price: "",
+      id_categori: "",
+      stock: ""
+    };
+  }
+
+  // eslint-disable-next-line react/no-direct-mutation-state
+
+  componentDidMount = () => {
+    if (sessionStorage.getItem("token") === null) {
+      this.props.history.push("/");
     }
-    
-        // eslint-disable-next-line react/no-direct-mutation-state
-        
-        componentDidMount= () =>{
-            const id = this.props.match.params.id;
-            Axios.get(`http://localhost:8080/api/v1/product/`+ id)
-            .then(res => {
-                console.log(res)
-                this.setState({
-                    name:res.data[0].name,
-                    image:res.data.image,
-                    price:res.data[0].price,
-                    id_categori:res.data[0].id_categori,
-                    stock:res.data[0].stock,
+    const id = this.props.match.params.id;
+    Axios.get(`http://localhost:8012/api/v1/product/` + id)
+      .then(res => {
+        console.log(res);
+        this.setState({
+          name: res.data[0].name,
+          image: res.data.image,
+          price: res.data[0].price,
+          id_categori: res.data[0].id_categori,
+          stock: res.data[0].stock
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
 
-                })
-            })
-            .catch(function ( error ){
-                console.log(error)
-            })
-        }
+  // eslint-disable-next-line no-undef
+  onChangeName = e => {
+    this.setState({
+      name: e.target.value
+    });
+  };
 
-        // eslint-disable-next-line no-undef
-        onChangeName=(e) => {
-            this.setState({
-                name: e.target.value
-            });
-        }
-        
-   
-        // eslint-disable-next-line no-undef
-        onChangeImage = (e) => {
-            this.setState({
-                image: e.target.files[0]
-            })
-        }
+  // eslint-disable-next-line no-undef
+  onChangeImage = e => {
+    this.setState({
+      image: e.target.files[0]
+    });
+  };
 
-        // eslint-disable-next-line no-undef
-        onChangePrice=(e)=>{
-            this.setState({
-                price : e.target.value
-            });
-        }
+  // eslint-disable-next-line no-undef
+  onChangePrice = e => {
+    this.setState({
+      price: e.target.value
+    });
+  };
 
-        // eslint-disable-next-line no-undef
-        onChangeIdCategory=(e)=>{
-            this.setState({
-                id_categori : e.target.value
-            });
-        }
+  // eslint-disable-next-line no-undef
+  onChangeIdCategory = e => {
+    this.setState({
+      id_categori: e.target.value
+    });
+  };
 
-        // eslint-disable-next-line no-undef
-        onChangeStock=(e)=>{
-            this.setState({
-                stock : e.target.value
-            });
-        }
-   
-        // eslint-disable-next-line no-undef
-        handlerSubmit=()=>{
-            // eslint-disable-next-line no-restricted-globals
-            event.preventDefault();
-        
-           let formData = new FormData();
-           formData.append("name", this.state.name);
-           formData.append("price", this.state.price);
-           formData.append("id_categori", this.state.id_categori);
-           formData.append("stock", this.state.stock);
-           formData.append("image", this.state.image);
+  // eslint-disable-next-line no-undef
+  onChangeStock = e => {
+    this.setState({
+      stock: e.target.value
+    });
+  };
 
-        //    const objk = {
-        //        name : this.state.name,
-        //        image : this.state.image,
-        //        price : this.state.price,
-        //        id_categori : this.state.id_categori,
-        //        stock : this.state.stock
-        //    }
-   
-           Axios.patch('http://localhost:8080/api/v1/product/'+ this.props.match.params.id, formData, {headers: { 'content-type': 'multipart/form-data' }})
-           .then(response => {
-               if(this.state.name === '' || this.state.price === '' || this.state.image === ''){
-                   alert('tidak boleh ada yang dikosongkan')
-               }
-               else {
-                this.props.history.push('/list')
-               }
-           })
-           .catch(error => {
-               console.log(error);
-           }
-           ); 
-   
-       }
-       render() {
-        return ( 
-            <div style={{marginTop: 100}} className="container">
-                {/* <form>
-                    <label>Name Product</label>
-                    <input className="form-control form-control-sm" name="name" onChange={this.handlerChange} type="text" placeholder=".form-control-sm"></input>
-                    <label>image</label><br/>
-                    <input  type="file"  className="custom" name="image" onChange={this.handlerChange} placeholder=".form-control-sm"></input><br/>
-                    <label>Price</label>
-                    <input className="form-control form-control-sm" name="price" onChange={this.handlerChange} type="text" placeholder=".form-control-sm"></input>
-                    <label>category</label>
-                    <select className="form-control form-control-sm" onChange={this.handlerChange}>
-                        <option name="id_categori" value="1">1</option>
-                        <option name="id_categori" value="2">2</option>
-                    </select>
-                    <label>stock</label>
-                    <input className="form-control form-control-sm" name="stock" onChange={this.handlerChange} type="text" placeholder=".form-control-sm"></input><br/>
-                    <input type="submit" value="edit" className="btn btn-success">Edit</input>
-                </form> */}
-                <form onSubmit={this.handlerSubmit}>
-                    <table>
-                        <tbody>
-                        <tr>
-                            <td>name product</td>
-                            <td><input type="text" name="name" onChange={this.onChangeName} defaultValue={this.state.name}/></td>
-                        </tr>
-                        <tr>
-                            <td>Image</td>
-                            <td><input type="file" name="image" onChange={this.onChangeImage} defaultValue={this.state.image}/></td>
-                        </tr>
-                        <tr>
-                            <td>price</td>
-                            <td><input type="text" name="price" onChange={this.onChangePrice}  defaultValue={this.state.price}/></td>
-                        </tr>
-                        <tr>
-                            <td>category</td>
-                            <td>
-                                <select name="id_categori" onChange={this.onChangeIdCategory}  defaultValue={this.state.id_category}>
-                                    <option value="1" selected >makanan</option>
-                                    <option value="2">kendaraan</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>stock</td>
-                            <td><input type="text" name="stock" onChange={this.onChangeStock}  value={this.state.stock}/></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><input type="submit" className="btn btn-primary"/></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </form>
-            </div>
-         );
-    }
+  // eslint-disable-next-line no-undef
+  handlerSubmit = event => {
+    console.log(this.state.image);
+    event.preventDefault();
+    let formData = new FormData();
+    formData.append("name", this.state.name);
+    formData.append("price", this.state.price);
+    formData.append("id_categori", this.state.id_categori);
+    formData.append("stock", this.state.stock);
+    formData.append("image", this.state.image);
+
+    Axios.patch(
+      "http://localhost:8012/api/v1/product/" + this.props.match.params.id,
+      formData,
+      { headers: { "content-type": "multipart/form-data" } }
+    )
+      .then(response => {
+        if (
+          this.state.name === "" ||
+          this.state.price === "" ||
+          this.state.image === ""
+        ) {
+          alert("tidak boleh ada yang dikosongkan");
+        } else {
+          this.props.history.push("/list");
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+  render() {
+    return (
+      <div className="container">
+        <Form onSubmit={this.handlerSubmit}>
+          <div className="title-add">
+            <label>Add Item</label>
+          </div>
+          <Form.Group as={Row}>
+            <Form.Label column sm={2}>
+              Name
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control
+                name="name"
+                type="text"
+                onChange={this.onChangeName}
+                defaultValue={this.state.name}
+              ></Form.Control>
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row}>
+            <Form.Label column sm={2}>
+              Image
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control
+                name="image"
+                type="file"
+                onChange={this.onChangeImage}
+                defaultValue={this.state.image}
+              ></Form.Control>
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row}>
+            <Form.Label column sm={2}>
+              price
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control
+                name="price"
+                type="text"
+                onChange={this.onChangeName}
+                defaultValue={this.state.price}
+              ></Form.Control>
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row}>
+            <Form.Label column sm={2}>
+              Stock
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control
+                name="stock"
+                type="text"
+                onChange={this.onChangeName}
+                defaultValue={this.state.stock}
+              ></Form.Control>
+            </Col>
+          </Form.Group>
+          <Form.Group controlId="exampleForm.SelectCustom">
+            <Form.Label>Category</Form.Label>
+            <Form.Control
+              as="select"
+              name="id_categori"
+              onChange={this.onChangeIdCategory}
+              defaultValue={this.state.id_category}
+            >
+              <option>Select</option>
+              <option value="1">kendaraan</option>
+              <option value="2">makanan</option>
+              <option value="3">minuman</option>
+            </Form.Control>
+          </Form.Group>
+          <div style={{ textAlign: "right" }}>
+            <Button
+              onClick={() => this.props.history.push("/list")}
+              className="btn-add"
+              style={{
+                backgroundColor: "#F24F8A",
+                borderRadius: 10,
+                border: "none"
+              }}
+            >
+              Cancel
+            </Button>
+            <input
+              type="submit"
+              style={{
+                border: "none",
+                height: 36,
+                width: 100,
+                borderRadius: 10,
+                backgroundColor: "#57CAD5"
+              }}
+            ></input>
+          </div>
+        </Form>
+      </div>
+    );
+  }
 }
- 
+
 export default EditProduct;

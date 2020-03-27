@@ -10,18 +10,20 @@ class Login extends Component {
     this.state = {
       name: "",
       password: "",
+      email: "",
       loggedIn,
-      errMsg: ""
+      errMsg: "",
+      token: localStorage.getItem("token")
     };
     this.inputChange = this.inputChange.bind(this);
     this.onSubmitForm = this.onSubmitForm.bind(this);
   }
 
   componentDidMount() {
-    localStorage.clear("token");
-    if (sessionStorage.getItem("token") !== null) {
-      this.props.history.push("/list");
-    }
+    // console.log(localStorage.getItem("getItem"));
+    // if (sessionStorage.getItem("token") !== null) {
+    //   this.props.history.push("/list");
+    // }
   }
 
   handleSubmit = event => {
@@ -38,32 +40,32 @@ class Login extends Component {
   };
 
   onSubmitForm = e => {
-    console.log(sessionStorage.getItem("token"));
     e.preventDefault();
-
-    axios
-      .post("http://localhost:8012/api/v1/user/login", this.state)
-      .then(response => {
-        this.setState({
-          loggedIn: true
-        });
-        console.log(response.data.message);
-        localStorage.setItem("user", this.state.name);
-        sessionStorage.setItem("token", response.data.token);
-        if (response.data.message === "user tidak ditemukan") {
-          this.props.history.push("/");
-        } else {
-          this.props.history.push("/list");
-        }
-        
-      })
-      .catch(this.setState({ errMsg: "Invalid username or password" }));
+    if (sessionStorage.getItem("token") !== null) {
+      this.props.history.push("/list");
+    } else {
+      this.props.history.push("/");
+    }
+    console.log(this.state.password.length);
+    const lengthPws = this.state.password.length;
+    if (lengthPws < 5) {
+      alert("password tidak boleh kurang dari 5");
+    } else {
+      axios
+        .post("http://localhost:8012/api/v1/user/insert", this.state)
+        .then(response => {
+          this.setState({
+            loggedIn: true
+          });
+          console.log(response);
+        })
+        .catch(this.setState({ errMsg: "Invalid username or password" }));
+    }
   };
 
-  register() {
-    this.props.history.push("/register");
+  cancel() {
+    this.props.history.push("/");
   }
-
   render() {
     return (
       <div className="login-screen">
@@ -74,7 +76,7 @@ class Login extends Component {
               width="300"
               alt="Hello World"
             />
-            <p className="title-login">Welcome Back</p>
+            <p className="title-login">Register</p>
           </div>
           <div className="container" style={{ paddingTop: 10 }}>
             <label>
@@ -84,6 +86,16 @@ class Login extends Component {
               class="usepass"
               type="text"
               name="name"
+              onChange={this.inputChange}
+            ></input>
+
+            <label>
+              <b>Email</b>
+            </label>
+            <input
+              class="usepass"
+              type="email"
+              name="email"
               onChange={this.inputChange}
             ></input>
 
@@ -104,7 +116,7 @@ class Login extends Component {
               Login
               onClick={this.onSubmitForm}
             >
-              Login
+              Register
             </button>
           </div>
 
@@ -120,9 +132,9 @@ class Login extends Component {
             <button
               type="button"
               class="cancelbtn"
-              onClick={() => this.register()}
+              onClick={() => this.cancel()}
             >
-              Register
+              Cancel
             </button>
             <span class="psw">
               Forgot <Link to="#">password</Link>

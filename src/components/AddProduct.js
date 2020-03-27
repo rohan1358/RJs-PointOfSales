@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import Axios from 'axios'
+import Axios from "axios";
+import { Form, Col, Row, Button } from "react-bootstrap";
+import "../assets/css/Styless.css";
 
 class AddProduct extends Component {
   constructor(props) {
@@ -9,28 +11,25 @@ class AddProduct extends Component {
       price: "",
       id_categori: "",
       stock: "",
-      image: null
+      image: null,
+      token: sessionStorage.getItem("token")
     };
   }
 
   handlerChange = e => {
-    console.log(this.state.image);
+    console.log(this.state.name);
     this.setState({
       [e.target.name]: [e.target.value]
     });
   };
 
-  //   componentDidMount=()=>{
-  //       console.log(this.state.image)
-  //   }
-
   handleChangeImage = e => {
     this.setState({ image: e.target.files[0] });
   };
 
-  handlerSubmit = () => {
-    // eslint-disable-next-line no-restricted-globals
+  handlerSubmit = event => {
     event.preventDefault();
+    console.log("add");
 
     let formData = new FormData();
     formData.append("name", this.state.name);
@@ -38,14 +37,7 @@ class AddProduct extends Component {
     formData.append("id_categori", this.state.id_categori);
     formData.append("stock", this.state.stock);
     formData.append("image", this.state.image);
-    // console
-    //   .log(this.state.image)
-
-    //  const config = {
-    //     headers: { 'content-type': 'multipart/form-data' }
-    // }
-
-    Axios.post("http://localhost:8080/api/v1/product/", formData, {
+    Axios.post("http://localhost:8012/api/v1/product/", formData, {
       headers: { "content-type": "multipart/form-data" }
     })
       .then(response => {
@@ -62,165 +54,112 @@ class AddProduct extends Component {
   };
 
   componentDidMount = () => {
-    if (localStorage.getItem("token") === null) {
+    if (this.state.token === null) {
       this.props.history.push("/");
     }
+    // console.log(this.state.token);
   };
 
   render() {
     return (
-        // <div className="container" style={{ marginTop: 70 }}>
-        //   <form onSubmit={this.handlerSubmit}>
-        //     <table>
-        //       <tbody>
-        //         <tr>
-        //           <td>name product</td>
-        //           <td>:</td>
-        //           <td>
-        //             <input
-        //               type="text"
-        //               style={{ height: 30 }}
-        //               className="form-control"
-        //               name="name"
-        //               onChange={this.handlerChange}
-        //             />
-        //           </td>
-        //         </tr>
-        //         <tr>
-        //           <td>price</td>
-        //           <td>:</td>
-        //           <td>
-        //             <input
-        //               type="text"
-        //               style={{ height: 30 }}
-        //               name="price"
-        //               className="form-control"
-        //               onChange={this.handlerChange}
-        //             />
-        //           </td>
-        //         </tr>
-        //         <tr>
-        //           <td>category</td>
-        //           <td>:</td>
-        //           <td>
-        //             <select
-        //               className="custom-select"
-        //               name="id_categori"
-        //               style={{ height: 30 }}
-        //               onChange={this.handlerChange}
-        //             >
-        //               <option>Pilih kategory</option>
-        //               <option name="id_categori" value="1">
-        //                 minuman
-        //               </option>
-        //               <option name="id_categori" value="2">
-        //                 makanan
-        //               </option>
-        //             </select>
-        //           </td>
-        //         </tr>
-        //         <tr>
-        //           <td>stock</td>
-        //           <td>:</td>
-        //           <td>
-        //             <input
-        //               type="text"
-        //               style={{ height: 30 }}
-        //               name="stock"
-        //               className="form-control"
-        //               onChange={this.handlerChange}
-        //             />
-        //           </td>
-        //         </tr>
-        //         <tr>
-        //           <td>Image</td>
-        //           <td>:</td>
-        //           <td>
-        //             <input
-        //               type="file"
-        //               style={{ height: 30 }}
-        //               name="image"
-        //               onChange={this.handleChangeImage}
-        //             />
-        //           </td>
-        //         </tr>
-        //         <tr>
-        //           <td></td>
-        //           <td></td>
-        //           <td>
-        //             <input type="submit" className="btn btn-primary" />
-        //           </td>
-        //         </tr>
-        //       </tbody>
-        //     </table>
-        //   </form>
-        //   </div>
-      <div className="form-style-3">
-        <form className="form-add" onSubmit={this.handlerSubmit}>
-          <fieldset>
-            <legend>Add Product</legend>
-
-            <label>
-              <span>Name Product</span>
-              <input
+      <div className="container">
+        <Form onSubmit={this.handlerSubmit}>
+          <div className="title-add">
+            <label>Add Item</label>
+          </div>
+          <Form.Group as={Row}>
+            <Form.Label column sm={2}>
+              Name
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control
                 name="name"
-                onChange={this.handlerChange}
                 type="text"
-                className="inpput-field"
-              ></input>
-            </label>
-            <label>
-              <span>Price</span>
-              <input
-                name="price"
                 onChange={this.handlerChange}
-                type="text"
-                className="inpput-field"
-              ></input>
-            </label>
-            <label>
-              <span>category</span>
-              <select
-                name="id_categori"
-                style={{ width: 267 }}
-                onChange={this.handlerChange}
-              >
-                <option>Pilih kategory</option>
-                <option name="id_categori" value="1">
-                  minuman
-                </option>
-                <option name="id_categori" value="2">
-                  makanan
-                </option>
-              </select>
-            </label>
-            <label>
-              <span>Stock</span>
-              <input
-                name="stock"
-                onChange={this.handlerChange}
-                type="text"
-                className="inpput-field"
-              ></input>
-            </label>
-            <label>
-              <span>Image</span>
-              <input
+              />
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row}>
+            <Form.Label column sm={2}>
+              Image
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control
                 name="image"
-                style={{ width: 267 }}
-                type="file"
-                className="inpput-field"
                 onChange={this.handleChangeImage}
-              ></input>
-            </label>
-            <label style={{ textAlign: "right", marginRight: 20 }}>
-              <span></span>
-              <input type="submit" value="Add"></input>
-            </label>
-          </fieldset>
-        </form>
+                type="file"
+              />
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row}>
+            <Form.Label column sm={2}>
+              Price
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control
+                name="price"
+                type="text"
+                onChange={this.handlerChange}
+              />
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row}>
+            <Form.Label column sm={2}>
+              stock
+            </Form.Label>
+            <Col sm={10}>
+              <Form.Control
+                name="stock"
+                type="number"
+                onChange={this.handlerChange}
+              />
+            </Col>
+          </Form.Group>
+          <Form.Group controlId="exampleForm.SelectCustom">
+            <Form.Label>Category</Form.Label>
+            <Form.Control
+              as="select"
+              name="id_categori"
+              onChange={this.handlerChange}
+            >
+              <option>Select</option>
+              <option name="id_categori" value="1">
+                kendaraan
+              </option>
+              <option name="id_categori" value="2">
+                makanan
+              </option>
+              <option name="id_categori" value="3">
+                minuman
+              </option>
+            </Form.Control>
+          </Form.Group>
+          <div style={{ textAlign: "right" }}>
+            <Button
+              onClick={() => this.props.history.push("/list")}
+              className="btn-add"
+              style={{
+                backgroundColor: "#F24F8A",
+                borderRadius: 10,
+                border: "none"
+              }}
+            >
+              Cancel
+            </Button>
+            <input
+              type="submit"
+              style={{
+                border: "none",
+                height: 36,
+                width: 100,
+                borderRadius: 10,
+                backgroundColor: "#57CAD5"
+              }}
+            ></input>
+          </div>
+        </Form>
       </div>
-        // </div>
+      // </div>
     );
   }
 }

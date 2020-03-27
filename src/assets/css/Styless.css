@@ -32,9 +32,7 @@
   height: 100%;
   width: 30%;
 }
-/* body{
-  margin: 0;
-} */
+
 .menu {
   background-color: greenyellow;
 }
@@ -49,9 +47,13 @@
 }
 .filter {
   float: right;
-  color: green;
-  margin-top: 20px;
+  margin-top: 14px;
   margin-right: 10px;
+  /* border: 2px solid #ccc; */
+  /* border-radius: 5px; */
+}
+.filter-slc {
+  height: 38px;
   border: 2px solid #ccc;
   border-radius: 5px;
 }
@@ -80,6 +82,8 @@ input[type="search"]:focus {
 }
 .img-list {
   margin-top: 20px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 .list {
   position: relative;
@@ -92,14 +96,6 @@ input[type="search"]:focus {
   width: 36.8%;
   height: 500px;
 }
-
-/* body {
-  background-color: #F2F2F2;
-  color: white;
-  font-family: "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
-  margin: 0;
-  box-sizing: border-box;
-} */
 
 .menubar {
   display: block;
@@ -255,14 +251,18 @@ li a {
 .cart-list {
   padding: 20px;
 }
-/* .title-cart{
-  margin-top: 50px;
-} */
+.title-cart {
+  /* margin-top: 50px; */
+  font-size: 20px;
+}
 .rounded {
   border-radius: 60px;
-}
-.img-list {
-  border-radius: 60px;
+  float: "left";
+  margin-right: 10;
+  margin: 10;
+  border: 10;
+  background-color: "lightblue";
+  padding: 15;
 }
 
 .usepass {
@@ -297,8 +297,12 @@ li a {
 .cancelbtn {
   width: auto;
   padding: 10px 18px;
-  background-color: #f44336;
+  background-color: #3489eb;
   border: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  padding: 9px;
+  width: 200px;
 }
 
 span.psw {
@@ -318,16 +322,16 @@ span.psw {
   text-align: right;
 }
 
-.form {
+/* .form {
   border: 3px solid #f1f1f1;
   margin-left: 200px;
   margin-right: 200px;
   margin-top: 100px;
-}
+} */
 .form-add {
   margin: auto;
   width: 38.4%;
-  background-color: yellow;
+  /* background-color: yellow; */
 }
 
 .footer {
@@ -336,7 +340,7 @@ span.psw {
 
 .form-style-3 {
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-  background-color: #4caf50;
+  /* background-color: #4caf50; */
   margin: auto;
 }
 
@@ -412,5 +416,120 @@ span.psw {
   border-radius: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
+  font-weight: bold;
+}
+.cartnull {
+  font-size: 40px;
+  margin-top: -20px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+.cartnulldsc {
+  font-size: 20px;
+  color: #ab9898;
+  margin-top: -10px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.crt-itm {
+  display: inline;
+}
+.footer-cart {
+  margin-top: 100%;
+}
+
+div.fixed {
+  position: fixed;
+  width: 34%;
+  bottom: 10px;
+  /* border: 3px solid #8ac007; */
+}
+
+.btncc {
+  width: 95%;
+  margin-left: 20px;
+  margin-right: 20px;
+  height: 35px;
+  margin-top: 10px;
+  border: none;
+  margin-bottom: 10px;
+}
+.btn-add {
+  margin-right: 20px;
+  position: relative;
+  width: 100px;
+  /* border-radius: 100000px; */
+}
+.title-add {
+  font-size: 25px;
+}
+.container {
+  margin-top: 50px;
+  background-color: #ccc;
+
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+}
+.lbl-hstry {
+  float: right;
+  margin-right: 50%;
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: large;
+}
+.cart-history {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+  margin-right: 20px;
+  margin-left: 30px;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px;
+  padding: 20px;
+  margin-right: 10px;
+  height: 213px;
+  border-radius: 10px;
+  align-content: center;
+}
+.grid1 {
+  background-color: rgba(255, 143, 178, 0.25);
+}
+.grid2 {
+  background-color: rgba(41, 223, 255, 0.25);
+}
+.grid3 {
+  background-image: linear-gradient(
+    to bottom left,
+    #ab84c8 15.07%,
+    rgba(241, 201, 236, 0) 100%
+  );
+  background-color: rgba(241, 201, 236, 0.25);
+}
+.txt-price-checkout {
+  margin-left: 80%;
+}
+.kolom {
+  width: 80%;
+}
+.kolom-product {
+  width: 20%;
+}
+.txt-onModel {
+  font-size: 20px;
+  font-weight: bold;
+}
+.btn-icon {
+  background: none;
+  border: none;
+}
+.login-screen {
+  background-color: "lightblue";
+  padding-top: 5%;
+}
+.title-login{
+  font-size: 50px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: bold;
 }
