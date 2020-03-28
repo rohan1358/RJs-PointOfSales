@@ -15,7 +15,7 @@ this is simple web Point Of Sales
 - Checkout
 - History
 
-## Installation
+## Installation & Running
 
 run this command on the terminal
 
