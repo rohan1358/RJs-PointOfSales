@@ -29,7 +29,7 @@ class list extends Component {
   }
 
   getProduct = async () => {
-    Axios.get("http://localhost:8012/api/v1/product", {
+    Axios.get("http://54.158.219.28:8011/api/v1/product", {
       header: { "x-access-token": localStorage.getItem("token") }
     }).then(res => {
       const product = res.data.result;
@@ -43,7 +43,6 @@ class list extends Component {
   };
 
   componentDidMount = () => {
-    console.log(this.state.token);
     if (this.state.token === null) {
       this.props.history.push("/");
     } else {
@@ -52,15 +51,11 @@ class list extends Component {
     this.getProduct();
     document.addEventListener("click", this._handleDocumentClick, false);
   };
-
-  componentDidMount() {
-    console.log(this.state.user);
-  }
   componentWillUnmount() {
     document.removeEventListener("click", this._handleDocumentClick, false);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.getProduct();
   }
 
@@ -80,7 +75,7 @@ class list extends Component {
 
   deleteProduct() {
     Axios.delete(
-      "http://localhost:8012/api/v1/product/" + this.state.product.id
+      "http://54.158.219.28:8012/api/v1/product/" + this.state.product.id
     );
 
     window.location.reload();
@@ -109,18 +104,12 @@ class list extends Component {
         product_id: this.state.carts[i].id,
         qty: this.state.carts[i].qty
       });
-      Axios.post("http://localhost:8012/api/v1/order", bodyFormData, {
+      Axios.post("http://54.158.219.28:8012/api/v1/order", bodyFormData, {
         headers: {
           "content-type": "application/x-www-form-urlencoded;charset=utf-8",
           "x-access-token": localStorage.usertoken
         }
-      })
-        .then(result => {
-          console.log(result);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      });
     }
   };
 
@@ -205,9 +194,7 @@ class list extends Component {
     const date = new Date();
     const month = date.toDateString();
     const year = date.getFullYear();
-    console.log(month);
     this.setState({ setModalShow: true });
-    console.log("order");
     const invoices = new Date().toLocaleString().replace(/[/:, -,P,M,A]/gi, "");
     this.state.cartItems.forEach(state => {
       const form = {
@@ -219,14 +206,8 @@ class list extends Component {
         users: this.state.user,
         year: year
       };
-      // console.log(state.id);
-      Axios.post("http://localhost:8012/api/v1/order", qs.stringify(form))
-        .then(result => {
-          console.log(result);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      Axios.post("http://54.158.219.28:8011/api/v1/order", qs.stringify(form));
+      console.log(form);
     });
   };
   cancelOrder = () => {
@@ -234,8 +215,6 @@ class list extends Component {
   };
   txt = () => {
     const { cartItems } = this.state;
-
-    // console.log(cartItems);
 
     return (
       <>
@@ -268,7 +247,6 @@ class list extends Component {
   };
   MyVerticallyCenteredModal = props => {
     const invoices = new Date().toLocaleString().replace(/[/:, -,P,M,A]/gi, "");
-    // console.log(this.dataProduct());
     return (
       <Modal
         {...props}
@@ -278,11 +256,11 @@ class list extends Component {
       >
         <Modal.Header>
           <Modal.Title>
-            <text> Checkout </text>
+            <p> Checkout </p>
             <br />
-            <text>cashier: {this.state.user} </text>
+            <p>cashier: {this.state.user} </p>
           </Modal.Title>
-          <text style={{ fontSize: 20 }}>receipt no : {invoices} </text>
+          <p style={{ fontSize: 20 }}>receipt no : {invoices} </p>
         </Modal.Header>
         <Modal.Body> {this.txt()} </Modal.Body>
         <div style={{ textAlign: "center" }}>
@@ -300,7 +278,7 @@ class list extends Component {
             }}
             onClick={() => this.setState({ setModalShow: false })}
           >
-            <text>Print</text>
+            <label>Print</label>
           </button>
           <p style={{ fontSize: 20, fontWeight: "bold" }}>Or</p>
           <button
@@ -317,7 +295,7 @@ class list extends Component {
             }}
             onClick={() => this.setState({ setModalShow: false })}
           >
-            <text>Send Email</text>
+            <label>Send Email</label>
           </button>
         </div>
       </Modal>

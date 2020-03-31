@@ -21,9 +21,6 @@ export default class Cart extends Component {
       cartItems: []
     };
   }
-  componentDidMount() {
-    this.state.cartItems.map(cartItems => console.log(cartItems.name));
-  }
   toggleModal = () => {
     this.setState({
       modalIsOpen: !this.state.modalIsOpen
@@ -76,8 +73,8 @@ export default class Cart extends Component {
                       <img
                         alt="img"
                         src={item.image.replace(
-                          "localhost:8080",
-                          "54.158.219.28:8012"
+                          "localhost:8012",
+                          "54.158.219.28:8011"
                         )}
                         style={{
                           float: "left",

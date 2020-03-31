@@ -14,7 +14,7 @@ import { Table } from "react-bootstrap";
 // import store from './store'
 // import { fetchProduct } from "../actions/productActio";
 
-// const URL = "http://localhost:8080/api/v1/"
+// const URL = "http://54.158.219.28:8080/api/v1/"
 
 class list extends Component {
   constructor(props) {
@@ -75,7 +75,7 @@ class list extends Component {
               {this.state.todayIncome.map(map => {
                 return (
                   <>
-                    <p
+                    <p key={map.id}
                       style={{
                         fontSize: 22,
                         fontWeight: "bold",
@@ -98,7 +98,7 @@ class list extends Component {
               {this.state.allOrder.map(map => {
                 return (
                   <>
-                    <p
+                    <p key={map.id}
                       style={{
                         fontSize: 22,
                         fontWeight: "bold",
@@ -119,7 +119,7 @@ class list extends Component {
               {this.state.yearIncome.map(map => {
                 return (
                   <>
-                    <p
+                    <p key={map.id}
                       style={{
                         fontSize: 22,
                         fontWeight: "bold",
@@ -141,52 +141,36 @@ class list extends Component {
     );
   }
   listHistory = async () => {
-    Axios.get("http://localhost:8012/api/v1/order").then(res => {
-      const respon = res;
-      const story = Object.values(respon);
-      console.log({ story });
-    });
+    Axios.get("http://54.158.219.28:8011/api/v1/order");
   };
   componentDidMount() {
-    console.log(sessionStorage.getItem("token"));
     if (sessionStorage.getItem("token") === null) {
       this.props.history.push("/");
     } else if (sessionStorage.getItem("token") === "undefined") {
       this.props.history.push("/");
     }
-    Axios.get("http://localhost:8012/api/v1/order").then(res => {
+    Axios.get("http://54.158.219.28:8011/api/v1/order").then(res => {
       const history = res.data;
       // const history = JSON.parse(story);
-      // console.log(story)
       this.setState({ history });
-      // console.log(this.state.history);
     });
-    Axios.get("http://localhost:8012/api/v1/order/todayIncome").then(res => {
-      const todayIncome = res.data;
-      console.log(todayIncome);
-      this.setState({ todayIncome });
-    });
-    Axios.get("http://localhost:8012/api/v1/order/yearincome").then(res => {
+    Axios.get("http://54.158.219.28:8011/api/v1/order/todayIncome").then(
+      res => {
+        const todayIncome = res.data;
+        this.setState({ todayIncome });
+      }
+    );
+    Axios.get("http://54.158.219.28:8011/api/v1/order/yearincome").then(res => {
       const yearIncome = res.data;
-      console.log(yearIncome);
       this.setState({ yearIncome });
     });
-    Axios.get("http://localhost:8012/api/v1/order/allorder").then(res => {
+    Axios.get("http://54.158.219.28:8011/api/v1/order/allorder").then(res => {
       const allOrder = res.data;
-      console.log(allOrder);
       this.setState({ allOrder });
     });
   }
 
   tblHistory() {
-    // return this.state.history.map(hello => {
-    //   console.log(hello);
-    //   return (
-    //     <>
-    //       <text> {hello.invoices} </text>
-    //     </>
-    //   );
-    // });
     return (
       <div>
         <Table>
@@ -202,7 +186,7 @@ class list extends Component {
             {this.state.history.map(hello => {
               return (
                 <>
-                  <tr>
+                  <tr key={hello.id}>
                     <td> #{hello.invoices} </td>
                     <td> {hello.users} </td>
                     <td> {hello.dates} </td>
@@ -220,7 +204,6 @@ class list extends Component {
     sessionStorage.clear("token");
     this.props.history.push("/");
     // localStorage.clear("token");
-    // console.log("hello");
   };
   fork = () => {
     this.props.history.push("/list");

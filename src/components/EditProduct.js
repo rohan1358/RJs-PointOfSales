@@ -28,9 +28,8 @@ class EditProduct extends Component {
       this.props.history.push("/");
     }
     const id = this.props.match.params.id;
-    Axios.get(`http://localhost:8012/api/v1/product/` + id)
+    Axios.get(`http://54.158.219.28:8011/api/v1/product/` + id)
       .then(res => {
-        console.log(res);
         this.setState({
           name: res.data[0].name,
           image: res.data.image,
@@ -39,9 +38,6 @@ class EditProduct extends Component {
           stock: res.data[0].stock
         });
       })
-      .catch(function(error) {
-        console.log(error);
-      });
   };
 
   // eslint-disable-next-line no-undef
@@ -81,7 +77,6 @@ class EditProduct extends Component {
 
   // eslint-disable-next-line no-undef
   handlerSubmit = event => {
-    console.log(this.state.image);
     event.preventDefault();
     let formData = new FormData();
     formData.append("name", this.state.name);
@@ -91,7 +86,7 @@ class EditProduct extends Component {
     formData.append("image", this.state.image);
 
     Axios.patch(
-      "http://localhost:8012/api/v1/product/" + this.props.match.params.id,
+      "http://54.158.219.28:8011/api/v1/product/" + this.props.match.params.id,
       formData,
       { headers: { "content-type": "multipart/form-data" } }
     )
@@ -106,9 +101,6 @@ class EditProduct extends Component {
           this.props.history.push("/list");
         }
       })
-      .catch(error => {
-        console.log(error);
-      });
   };
   render() {
     return (
@@ -151,7 +143,7 @@ class EditProduct extends Component {
               <Form.Control
                 name="price"
                 type="text"
-                onChange={this.onChangeName}
+                onChange={this.onChangePrice}
                 defaultValue={this.state.price}
               ></Form.Control>
             </Col>
@@ -164,7 +156,7 @@ class EditProduct extends Component {
               <Form.Control
                 name="stock"
                 type="text"
-                onChange={this.onChangeName}
+                onChange={this.onChangeStock}
                 defaultValue={this.state.stock}
               ></Form.Control>
             </Col>
@@ -178,9 +170,10 @@ class EditProduct extends Component {
               defaultValue={this.state.id_category}
             >
               <option>Select</option>
-              <option value="1">kendaraan</option>
-              <option value="2">makanan</option>
-              <option value="3">minuman</option>
+              <option value="1">makanan</option>
+              <option value="2">minuman</option>
+              <option value="3">kendaraan</option>
+              <option value="4">aksesoris kendaraan</option>
             </Form.Control>
           </Form.Group>
           <div style={{ textAlign: "right" }}>

@@ -12,12 +12,12 @@ class AddProduct extends Component {
       id_categori: "",
       stock: "",
       image: null,
-      token: sessionStorage.getItem("token")
+      token: sessionStorage.getItem("token"),
+      isloading: false
     };
   }
 
   handlerChange = e => {
-    console.log(this.state.name);
     this.setState({
       [e.target.name]: [e.target.value]
     });
@@ -29,7 +29,6 @@ class AddProduct extends Component {
 
   handlerSubmit = event => {
     event.preventDefault();
-    console.log("add");
 
     let formData = new FormData();
     formData.append("name", this.state.name);
@@ -37,27 +36,21 @@ class AddProduct extends Component {
     formData.append("id_categori", this.state.id_categori);
     formData.append("stock", this.state.stock);
     formData.append("image", this.state.image);
-    Axios.post("http://localhost:8012/api/v1/product/", formData, {
+    Axios.post("http://54.158.219.28:8011/api/v1/product/", formData, {
       headers: { "content-type": "multipart/form-data" }
     })
-      .then(response => {
-        console.log(response);
-        if (this.state.name === "") {
-          alert("jangan ada yang dikosongkan");
-        } else {
-          this.props.history.push("/list");
-        }
-      })
+      .then(this.setState({ isloading: true }))
+      .then(this.props.history.push("/"))
       .catch(error => {
         console.log(error);
       });
   };
 
   componentDidMount = () => {
+    console.log(this.state.token);
     if (this.state.token === null) {
       this.props.history.push("/");
     }
-    // console.log(this.state.token);
   };
 
   render() {
@@ -124,13 +117,16 @@ class AddProduct extends Component {
             >
               <option>Select</option>
               <option name="id_categori" value="1">
-                kendaraan
-              </option>
-              <option name="id_categori" value="2">
                 makanan
               </option>
-              <option name="id_categori" value="3">
+              <option name="id_categori" value="2">
                 minuman
+              </option>
+              <option name="id_categori" value="3">
+                kendaraan
+              </option>
+              <option name="id_categori" value="4">
+                aksesoris kendaraan
               </option>
             </Form.Control>
           </Form.Group>

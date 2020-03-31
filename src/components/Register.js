@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "../assets/css/Styless.css";
-import { Link } from "react-router-dom";
 
 class Login extends Component {
   constructor(props) {
@@ -52,7 +51,7 @@ class Login extends Component {
       alert("password tidak boleh kurang dari 5");
     } else {
       axios
-        .post("http://localhost:8012/api/v1/user/insert", this.state)
+        .post("http://54.158.219.28:8011/api/v1/user/insert", this.state)
         .then(response => {
           this.setState({
             loggedIn: true
@@ -83,7 +82,7 @@ class Login extends Component {
               <b>Username</b>
             </label>
             <input
-              class="usepass"
+              className="usepass"
               type="text"
               name="name"
               onChange={this.inputChange}
@@ -93,7 +92,7 @@ class Login extends Component {
               <b>Email</b>
             </label>
             <input
-              class="usepass"
+              className="usepass"
               type="email"
               name="email"
               onChange={this.inputChange}
@@ -103,7 +102,7 @@ class Login extends Component {
               <b>Password</b>
             </label>
             <input
-              class="usepass"
+              className="usepass"
               type="password"
               name="password"
               onChange={this.inputChange}
@@ -111,9 +110,8 @@ class Login extends Component {
 
             <button
               style={{ fontSize: 20, padding: 9 }}
-              class="tmbl"
+              className="tmbl"
               type="submit"
-              Login
               onClick={this.onSubmitForm}
             >
               Register
@@ -121,7 +119,7 @@ class Login extends Component {
           </div>
 
           <div
-            class="container"
+            className="container"
             style={{
               backgroundColor: "#f1f1f1",
               paddingTop: 10,
@@ -131,14 +129,11 @@ class Login extends Component {
           >
             <button
               type="button"
-              class="cancelbtn"
+              className="cancelbtn"
               onClick={() => this.cancel()}
             >
               Cancel
             </button>
-            <span class="psw">
-              Forgot <Link to="#">password</Link>
-            </span>
           </div>
         </form>
       </div>

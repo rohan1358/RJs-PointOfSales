@@ -46,7 +46,7 @@ function Home({ product, refresh, handleAddToCart }) {
           <img
             className="img-list"
             style={{ width: 200, height: 150 }}
-            src={product.image}
+            src={product.image.replace('localhost:8012', '54.158.219.28:8011')}
             alt="img"
           />
           <br />

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "../assets/css/Styless.css";
-import { Link } from "react-router-dom";
 
 class Login extends Component {
   constructor(props) {
@@ -33,21 +32,19 @@ class Login extends Component {
       {
         [e.target.name]: e.target.value
       },
-      () => console.log(this.state)
     );
   };
 
   onSubmitForm = e => {
-    console.log(sessionStorage.getItem("token"));
     e.preventDefault();
 
     axios
-      .post("http://localhost:8012/api/v1/user/login", this.state)
+      .post("http://54.158.219.28:8011/api/v1/user/login", this.state)
       .then(response => {
         this.setState({
           loggedIn: true
         });
-        console.log(response.data.message);
+        console.log(response)
         localStorage.setItem("user", this.state.name);
         sessionStorage.setItem("token", response.data.token);
         if (response.data.message === "user tidak ditemukan") {
@@ -81,7 +78,7 @@ class Login extends Component {
               <b>Username</b>
             </label>
             <input
-              class="usepass"
+              className="usepass"
               type="text"
               name="name"
               onChange={this.inputChange}
@@ -91,7 +88,7 @@ class Login extends Component {
               <b>Password</b>
             </label>
             <input
-              class="usepass"
+              className="usepass"
               type="password"
               name="password"
               onChange={this.inputChange}
@@ -99,9 +96,8 @@ class Login extends Component {
 
             <button
               style={{ fontSize: 20, padding: 9 }}
-              class="tmbl"
+              className="tmbl"
               type="submit"
-              Login
               onClick={this.onSubmitForm}
             >
               Login
@@ -109,7 +105,7 @@ class Login extends Component {
           </div>
 
           <div
-            class="container"
+            className="container"
             style={{
               backgroundColor: "#f1f1f1",
               paddingTop: 10,
@@ -119,14 +115,11 @@ class Login extends Component {
           >
             <button
               type="button"
-              class="cancelbtn"
+              className="cancelbtn"
               onClick={() => this.register()}
             >
               Register
             </button>
-            <span class="psw">
-              Forgot <Link to="#">password</Link>
-            </span>
           </div>
         </form>
       </div>
