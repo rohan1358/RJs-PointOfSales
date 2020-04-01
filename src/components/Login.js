@@ -10,7 +10,8 @@ class Login extends Component {
       name: "",
       password: "",
       loggedIn,
-      errMsg: ""
+      errMsg: "",
+      hidden: true
     };
     this.inputChange = this.inputChange.bind(this);
     this.onSubmitForm = this.onSubmitForm.bind(this);
@@ -28,31 +29,32 @@ class Login extends Component {
   };
 
   inputChange = e => {
-    this.setState(
-      {
-        [e.target.name]: e.target.value
-      },
-    );
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   };
 
   onSubmitForm = e => {
     e.preventDefault();
-
     axios
       .post("http://54.158.219.28:8011/api/v1/user/login", this.state)
       .then(response => {
         this.setState({
           loggedIn: true
         });
-        console.log(response)
+        response.setHeader(
+          "Access-Control-Allow-Headers",
+          "X-Requested-With, content-type"
+        );
+        console.log(response);
         localStorage.setItem("user", this.state.name);
         sessionStorage.setItem("token", response.data.token);
         if (response.data.message === "user tidak ditemukan") {
+          this.setState({ hidden: false });
           this.props.history.push("/");
         } else {
           this.props.history.push("/list");
         }
-        
       })
       .catch(this.setState({ errMsg: "Invalid username or password" }));
   };
@@ -74,6 +76,12 @@ class Login extends Component {
             <p className="title-login">Welcome Back</p>
           </div>
           <div className="container" style={{ paddingTop: 10 }}>
+            <p
+              style={{ marginBottom: 0, color: "red" }}
+              hidden={this.state.hidden}
+            >
+              *username salah
+            </p>
             <label>
               <b>Username</b>
             </label>
