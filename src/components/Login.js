@@ -39,7 +39,7 @@ class Login extends Component {
     axios
       .post("http://54.158.219.28:8011/api/v1/user/login", this.state, {
         headers: {
-          "X-Requested-With": "XMLHttpRequest"
+          "Access-Control-Allow-Origin'": "http://54.158.219.28:8012/"
         }
       })
       .then(response => {
