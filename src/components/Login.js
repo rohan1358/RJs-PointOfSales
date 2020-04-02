@@ -37,7 +37,11 @@ class Login extends Component {
   onSubmitForm = e => {
     e.preventDefault();
     axios
-      .post("http://54.158.219.28:8011/api/v1/user/login", this.state)
+      .post("http://54.158.219.28:8011/api/v1/user/login", this.state, {
+        headers: {
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      })
       .then(response => {
         this.setState({
           loggedIn: true
