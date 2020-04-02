@@ -42,9 +42,13 @@ class Login extends Component {
         this.setState({
           loggedIn: true
         });
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Max-Age", "1");
+        response.setHeader("Access-Control-Allow-Headers", "content-type");
         response.setHeader(
-          "Access-Control-Allow-Headers",
-          "X-Requested-With, content-type"
+          "Access-Control-Allow-Methods",
+          "PUT, POST, GET, DELETE, PATCH, OPTIONS"
         );
         console.log(response);
         localStorage.setItem("user", this.state.name);
