@@ -37,16 +37,11 @@ class Login extends Component {
   onSubmitForm = e => {
     e.preventDefault();
     axios
-      .post("http://54.158.219.28:8011/api/v1/user/login", this.state, {
-        headers: {
-          "Access-Control-Allow-Origin'": "http://54.158.219.28:8012/"
-        }
-      })
+      .post("http://54.158.219.28:8011/api/v1/user/login", this.state)
       .then(response => {
         this.setState({
           loggedIn: true
         });
-        console.log(response);
         localStorage.setItem("user", this.state.name);
         sessionStorage.setItem("token", response.data.token);
         if (response.data.message === "user tidak ditemukan") {
@@ -62,7 +57,6 @@ class Login extends Component {
   register() {
     this.props.history.push("/register");
   }
-
   render() {
     return (
       <div className="login-screen">

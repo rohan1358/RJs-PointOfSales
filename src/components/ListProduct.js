@@ -5,11 +5,12 @@ import Home from "./Home";
 import "../assets/css/Styless.css";
 import Cart from "./Cart";
 import Filter from "./Filter";
-
-import { confirmAlert } from "react-confirm-alert";
+import { FaSmile } from "react-icons/fa";
 import { connect } from "react-redux";
 import qs from "querystring";
 import { Modal, Row, Col, Container } from "react-bootstrap";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import { confirmAlert } from "react-confirm-alert";
 
 class list extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class list extends Component {
       sort: "",
       isOpen: false,
       user: localStorage.getItem("user"),
-      token: sessionStorage.getItem("token")
+      token: sessionStorage.getItem("token"),
     };
     this._menuToggle = this._menuToggle.bind(this);
     this._handleDocumentClick = this._handleDocumentClick.bind(this);
@@ -30,14 +31,14 @@ class list extends Component {
 
   getProduct = async () => {
     Axios.get("http://54.158.219.28:8011/api/v1/product", {
-      header: { "x-access-token": localStorage.getItem("token") }
-    }).then(res => {
+      header: { "x-access-token": localStorage.getItem("token") },
+    }).then((res) => {
       const product = res.data.result;
       this.setState({ product });
     });
     if (localStorage.getItem("cartItems")) {
       this.setState({
-        cartItems: JSON.parse(localStorage.getItem("cartItems"))
+        cartItems: JSON.parse(localStorage.getItem("cartItems")),
       });
     }
   };
@@ -62,38 +63,14 @@ class list extends Component {
   _handleDocumentClick(e) {
     if (!this.refs.root.contains(e.target) && this.state.isOpen === true) {
       this.setState({
-        isOpen: false
+        isOpen: false,
       });
     }
   }
   _menuToggle(e) {
     e.stopPropagation();
     this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
-
-  deleteProduct() {
-    Axios.delete(
-      "http://54.158.219.28:8012/api/v1/product/" + this.state.product.id
-    );
-
-    window.location.reload();
-  }
-  deleteConfirm() {
-    confirmAlert({
-      title: "toko",
-      message: `Are you sure you want to delete ${this.state.product.name}`,
-      buttons: [
-        {
-          label: "oke",
-          onClick: () => this.deleteProduct()
-        },
-        {
-          label: "no",
-          onClick: () => {}
-        }
-      ]
+      isOpen: !this.state.isOpen,
     });
   }
 
@@ -102,13 +79,13 @@ class list extends Component {
       const bodyFormData = qs.stringify({
         order_id: this.state.idOrder,
         product_id: this.state.carts[i].id,
-        qty: this.state.carts[i].qty
+        qty: this.state.carts[i].qty,
       });
       Axios.post("http://54.158.219.28:8012/api/v1/order", bodyFormData, {
         headers: {
           "content-type": "application/x-www-form-urlencoded;charset=utf-8",
-          "x-access-token": localStorage.usertoken
-        }
+          "x-access-token": localStorage.usertoken,
+        },
       });
     }
   };
@@ -117,12 +94,12 @@ class list extends Component {
     this.setState({ search: event.target.value.substr(0, 20) });
   }
 
-  handleChangeSort = e => {
+  handleChangeSort = (e) => {
     this.setState({ sort: e.target.value });
     this.list();
   };
   list = () => {
-    this.setState(state => {
+    this.setState((state) => {
       if (state.sort === "price") {
         state.product.sort((a, b) => (a.price > b.price ? 1 : -1));
       } else if (state.sort === "name") {
@@ -135,20 +112,27 @@ class list extends Component {
     });
   };
 
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.cartItems !== prevProps.cartItems) {
+      this.setState(this.props.cartItems === []);
+    }
+  }
   handleRemoveFromCart = (e, product) => {
-    this.setState(state => {
-      const cartItems = state.cartItems.filter(a => a.id !== product.id);
+    console.log(product);
+    this.setState((state) => {
+      const cartItems = state.cartItems.filter((a) => a.id !== product.id);
       localStorage.setItem("cartItems", JSON.stringify(cartItems));
       return { cartItems: cartItems };
     });
   };
 
   handleAddToCart = (e, product) => {
-    this.setState(state => {
+    this.setState((state) => {
       const cartItems = state.cartItems;
       let productAlreadyInCart = false;
 
-      cartItems.forEach(cp => {
+      cartItems.forEach((cp) => {
         if (cp.id === product.id) {
           cp.count += 1;
           productAlreadyInCart = true;
@@ -167,10 +151,10 @@ class list extends Component {
     });
   };
   handleReduceToCart = (e, product) => {
-    this.setState(state => {
+    this.setState((state) => {
       const cartItems = state.cartItems;
 
-      cartItems.forEach(cp => {
+      cartItems.forEach((cp) => {
         if (cp.id === product.id) {
           if (cp.count === 1) {
             this.handleRemoveFromCart(e, product);
@@ -196,7 +180,7 @@ class list extends Component {
     const year = date.getFullYear();
     this.setState({ setModalShow: true });
     const invoices = new Date().toLocaleString().replace(/[/:, -,P,M,A]/gi, "");
-    this.state.cartItems.forEach(state => {
+    this.state.cartItems.forEach((state) => {
       const form = {
         product_id: state.id,
         qty: state.count,
@@ -204,10 +188,9 @@ class list extends Component {
         total: state.count * state.price,
         dates: month,
         users: this.state.user,
-        year: year
+        year: year,
       };
       Axios.post("http://54.158.219.28:8011/api/v1/order", qs.stringify(form));
-      console.log(form);
     });
   };
   cancelOrder = () => {
@@ -221,7 +204,7 @@ class list extends Component {
         <Container
           style={{ backgroundColor: "white", marginTop: 0, paddingTop: 5 }}
         >
-          {cartItems.map(item => (
+          {cartItems.map((item) => (
             <Row key={item.id} style={{ marginBottom: 3 }}>
               <Col className="txt-onModel"> {item.name} </Col>
               <Col sm="3" className="txt-onModel">
@@ -245,7 +228,7 @@ class list extends Component {
       </>
     );
   };
-  MyVerticallyCenteredModal = props => {
+  MyVerticallyCenteredModal = (props) => {
     const invoices = new Date().toLocaleString().replace(/[/:, -,P,M,A]/gi, "");
     return (
       <Modal
@@ -274,7 +257,7 @@ class list extends Component {
               border: "none",
               fontSize: 20,
               fontWeight: "bold",
-              color: "white"
+              color: "white",
             }}
             onClick={() => this.setState({ setModalShow: false })}
           >
@@ -291,7 +274,7 @@ class list extends Component {
               border: "none",
               fontSize: 20,
               fontWeight: "bold",
-              color: "white"
+              color: "white",
             }}
             onClick={() => this.setState({ setModalShow: false })}
           >
@@ -300,6 +283,28 @@ class list extends Component {
         </div>
       </Modal>
     );
+  };
+
+  logoutComfirm = () => {
+    const text = (
+      <small style={{ fontSize: 25 }}>
+        Hello World <FaSmile />{" "}
+      </small>
+    );
+    confirmAlert({
+      title: text,
+      message: `Are you sure want to logout?`,
+      buttons: [
+        {
+          label: "oke",
+          onClick: () => this.logout(),
+        },
+        {
+          label: "no",
+          onClick: () => {},
+        },
+      ],
+    });
   };
   logout = () => {
     sessionStorage.removeItem("token");
@@ -347,7 +352,7 @@ class list extends Component {
             </button>
           </li>
           <li>
-            <button onClick={() => this.logout()} className="btn-icon">
+            <button onClick={() => this.logoutComfirm()} className="btn-icon">
               <img
                 alt="logout"
                 src={require("../assets/image/logout.png")}
@@ -358,10 +363,10 @@ class list extends Component {
         </ul>
       </div>
     );
-    let filterProduct = this.state.product.filter(product => {
+    let filterProduct = this.state.product.filter((product) => {
       return product.name.indexOf(this.state.search) !== -1;
     });
-    const renderData = filterProduct.map(product => {
+    const renderData = filterProduct.map((product) => {
       return (
         <Home
           product={product}
@@ -438,7 +443,7 @@ class list extends Component {
 
 const mapStateToProps = ({ count }) => {
   return {
-    count
+    count,
   };
 };
 export default connect(mapStateToProps)(list);

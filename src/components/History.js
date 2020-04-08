@@ -8,10 +8,10 @@ import Axios from "axios";
 // import {addToCart} from './action/cartAction'
 import "../assets/css/Styless.css";
 // import Menu from './Menu'
-
+import { confirmAlert } from "react-confirm-alert";
 import { connect } from "react-redux";
 import { Table } from "react-bootstrap";
-// import store from './store'
+import { FaSmile } from "react-icons/fa";
 // import { fetchProduct } from "../actions/productActio";
 
 // const URL = "http://54.158.219.28:8080/api/v1/"
@@ -20,13 +20,6 @@ class list extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // list(){
-      //     this.setState(state => {
-      //         if(state.sort !== ''){
-      //             state.product.sort((a,b)=> )
-      //         }
-      //     })
-      // },
       product: [],
       cartItems: [],
       sort: "",
@@ -35,7 +28,7 @@ class list extends Component {
       todayIncome: [],
       yearIncome: [],
       allOrder: [],
-      token: sessionStorage.getItem("token")
+      token: sessionStorage.getItem("token"),
     };
     this._menuToggle = this._menuToggle.bind(this);
     this._handleDocumentClick = this._handleDocumentClick.bind(this);
@@ -44,14 +37,14 @@ class list extends Component {
   _handleDocumentClick(e) {
     if (!this.refs.root.contains(e.target) && this.state.isOpen === true) {
       this.setState({
-        isOpen: false
+        isOpen: false,
       });
     }
   }
   _menuToggle(e) {
     e.stopPropagation();
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     });
   }
 
@@ -67,77 +60,66 @@ class list extends Component {
   todayIncome() {}
   bodoamat() {
     return (
-      <>
-        <div className="cart-history">
-          <div className="grid-item grid1">
-            <p style={{ fontWeight: "bold" }}>today's income</p>
-            <>
-              {this.state.todayIncome.map(map => {
-                return (
-                  <>
-                    <p key={map.id}
-                      style={{
-                        fontSize: 22,
-                        fontWeight: "bold",
-                        marginTop: -15
-                      }}
-                    >
-                      {" "}
-                      Rp.
-                      {map.Total}{" "}
-                    </p>
-                  </>
-                );
-              })}
-            </>
-            <p style={{ marginTop: -20, fontWeight: "bold" }}>+2% Yesterday</p>
-          </div>
-          <div className="grid-item grid2">
-            <p style={{ fontWeight: "bold" }}>Orders</p>
-            <>
-              {this.state.allOrder.map(map => {
-                return (
-                  <>
-                    <p key={map.id}
-                      style={{
-                        fontSize: 22,
-                        fontWeight: "bold",
-                        marginTop: -15
-                      }}
-                    >
-                      {map.total_order}
-                    </p>
-                  </>
-                );
-              })}
-            </>
-            <p style={{ marginTop: -20, fontWeight: "bold" }}>+2% Yesterday</p>
-          </div>
-          <div className="grid-item grid3">
-            <p style={{ fontWeight: "bold" }}>today's income</p>
-            <>
-              {this.state.yearIncome.map(map => {
-                return (
-                  <>
-                    <p key={map.id}
-                      style={{
-                        fontSize: 22,
-                        fontWeight: "bold",
-                        marginTop: -15
-                      }}
-                    >
-                      {" "}
-                      Rp.
-                      {map.total}{" "}
-                    </p>
-                  </>
-                );
-              })}
-            </>
-            <p style={{ marginTop: -20, fontWeight: "bold" }}>+2% Yesterday</p>
-          </div>
+      <div className="cart-history">
+        <div className="grid-item grid1">
+          <p style={{ fontWeight: "bold" }}>Today's Income</p>
+          {this.state.todayIncome.map((map, i) => {
+            return (
+              <p
+                key={i}
+                style={{
+                  fontSize: 22,
+                  fontWeight: "bold",
+                  marginTop: -15,
+                }}
+              >
+                {" "}
+                Rp.
+                {map.Total}{" "}
+              </p>
+            );
+          })}
+          <p style={{ marginTop: -20, fontWeight: "bold" }}>+2% Yesterday</p>
         </div>
-      </>
+        <div className="grid-item grid2">
+          <p style={{ fontWeight: "bold" }}>Orders</p>
+          {this.state.allOrder.map((map, i) => {
+            return (
+              <p
+                key={i}
+                style={{
+                  fontSize: 22,
+                  fontWeight: "bold",
+                  marginTop: -15,
+                }}
+              >
+                {map.total_order}
+              </p>
+            );
+          })}
+          <p style={{ marginTop: -20, fontWeight: "bold" }}>+2% Yesterday</p>
+        </div>
+        <div className="grid-item grid3">
+          <p style={{ fontWeight: "bold" }}>this Year's Income</p>
+          {this.state.yearIncome.map((map, i) => {
+            return (
+              <p
+                key={i}
+                style={{
+                  fontSize: 22,
+                  fontWeight: "bold",
+                  marginTop: -15,
+                }}
+              >
+                {" "}
+                Rp.
+                {map.total}{" "}
+              </p>
+            );
+          })}
+          <p style={{ marginTop: -20, fontWeight: "bold" }}>+2% Yesterday</p>
+        </div>
+      </div>
     );
   }
   listHistory = async () => {
@@ -149,22 +131,24 @@ class list extends Component {
     } else if (sessionStorage.getItem("token") === "undefined") {
       this.props.history.push("/");
     }
-    Axios.get("http://54.158.219.28:8011/api/v1/order").then(res => {
+    Axios.get("http://54.158.219.28:8011/api/v1/order").then((res) => {
       const history = res.data;
       // const history = JSON.parse(story);
       this.setState({ history });
     });
     Axios.get("http://54.158.219.28:8011/api/v1/order/todayIncome").then(
-      res => {
+      (res) => {
         const todayIncome = res.data;
         this.setState({ todayIncome });
       }
     );
-    Axios.get("http://54.158.219.28:8011/api/v1/order/yearincome").then(res => {
-      const yearIncome = res.data;
-      this.setState({ yearIncome });
-    });
-    Axios.get("http://54.158.219.28:8011/api/v1/order/allorder").then(res => {
+    Axios.get("http://54.158.219.28:8011/api/v1/order/yearincome").then(
+      (res) => {
+        const yearIncome = res.data;
+        this.setState({ yearIncome });
+      }
+    );
+    Axios.get("http://54.158.219.28:8011/api/v1/order/allorder").then((res) => {
       const allOrder = res.data;
       this.setState({ allOrder });
     });
@@ -183,16 +167,14 @@ class list extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.history.map(hello => {
+            {this.state.history.map((hello, i) => {
               return (
-                <>
-                  <tr key={hello.id}>
-                    <td> #{hello.invoices} </td>
-                    <td> {hello.users} </td>
-                    <td> {hello.dates} </td>
-                    <td> Rp.{hello.total} </td>
-                  </tr>
-                </>
+                <tr key={i}>
+                  <td> #{hello.invoices} </td>
+                  <td> {hello.users} </td>
+                  <td> {hello.dates} </td>
+                  <td> Rp.{hello.total} </td>
+                </tr>
               );
             })}
           </tbody>
@@ -215,6 +197,27 @@ class list extends Component {
   history = () => {
     this.props.history.push("/history");
     localStorage.setItem("token", this.state.token);
+  };
+  logoutConfirm = () => {
+    const text = (
+      <small style={{ fontSize: 25 }}>
+        Hello World <FaSmile />{" "}
+      </small>
+    );
+    confirmAlert({
+      title: text,
+      message: `Are you sure want to logout?`,
+      buttons: [
+        {
+          label: "oke",
+          onClick: () => this.logout(),
+        },
+        {
+          label: "no",
+          onClick: () => {},
+        },
+      ],
+    });
   };
   render() {
     let links = (
@@ -248,7 +251,7 @@ class list extends Component {
             </button>
           </li>
           <li>
-            <button onClick={() => this.logout()} className="btn-icon">
+            <button onClick={() => this.logoutConfirm()} className="btn-icon">
               <img
                 alt="logout"
                 src={require("../assets/image/logout.png")}
@@ -299,7 +302,7 @@ class list extends Component {
 
 const mapStateToProps = ({ count }) => {
   return {
-    count
+    count,
   };
 };
 export default connect(mapStateToProps)(list);

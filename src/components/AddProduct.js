@@ -13,21 +13,21 @@ class AddProduct extends Component {
       stock: "",
       image: null,
       token: sessionStorage.getItem("token"),
-      isloading: false
+      isloading: false,
     };
   }
 
-  handlerChange = e => {
+  handlerChange = (e) => {
     this.setState({
-      [e.target.name]: [e.target.value]
+      [e.target.name]: [e.target.value],
     });
   };
 
-  handleChangeImage = e => {
+  handleChangeImage = (e) => {
     this.setState({ image: e.target.files[0] });
   };
 
-  handlerSubmit = event => {
+  handlerSubmit = async (event) => {
     event.preventDefault();
 
     let formData = new FormData();
@@ -36,18 +36,16 @@ class AddProduct extends Component {
     formData.append("id_categori", this.state.id_categori);
     formData.append("stock", this.state.stock);
     formData.append("image", this.state.image);
-    Axios.post("http://54.158.219.28:8011/api/v1/product/", formData, {
-      headers: { "content-type": "multipart/form-data" }
-    })
-      .then(this.setState({ isloading: true }))
-      .then(this.props.history.push("/"))
-      .catch(error => {
-        console.log(error);
-      });
+    await Axios.post("http://54.158.219.28:8011/api/v1/product/", formData, {
+      headers: { "content-type": "multipart/form-data" },
+    }).then(
+      setTimeout(() => {
+        this.props.history.push("/");
+      },1000)
+    );
   };
 
   componentDidMount = () => {
-    console.log(this.state.token);
     if (this.state.token === null) {
       this.props.history.push("/");
     }
@@ -137,7 +135,7 @@ class AddProduct extends Component {
               style={{
                 backgroundColor: "#F24F8A",
                 borderRadius: 10,
-                border: "none"
+                border: "none",
               }}
             >
               Cancel
@@ -149,7 +147,7 @@ class AddProduct extends Component {
                 height: 36,
                 width: 100,
                 borderRadius: 10,
-                backgroundColor: "#57CAD5"
+                backgroundColor: "#57CAD5",
               }}
             ></input>
           </div>
