@@ -37,41 +37,36 @@ function Home({ product, refresh, handleAddToCart, deleteConfirm }) {
     });
   };
   return (
-    <div
-      className="rounded"
-      style={{
-        float: "left",
-        marginRight: 10,
-        margin: 10,
-        border: 10,
-        padding: 15,
-      }}
-    >
+    <div className="rounded">
       <div>
-        <div style={{ borderBottomWidth: 2, borderBottomColor: "blue" }}>
-          <img
-            className="img-list"
-            style={{ width: 200, height: 150 }}
-            src={product.image.replace("localhost:8012", "54.158.219.28:8011")}
-            alt="img"
-          />
-          <br />
-          <p style={{ fontSize: 20, marginTop: 0 }}>{product.name}</p>
-          {/* <strong style={{ float: "right" }}>stock : {product.stock}</strong> */}
-          <p style={{ marginTop: -20, fontWeight: "bold" }}>
-            Rp.{product.price}
-          </p>
+        <div>
+          <div className="img-area">
+            <img
+              className="img-list"
+              src={product.image.replace(
+                "localhost:8012",
+                "54.158.219.28:8011"
+              )}
+              alt="img"
+            />
+            <br />
+            <p className="txt-nameProduct">{product.name}</p>
+            {/* <strong style={{ float: "right" }}>stock : {product.stock}</strong> */}
+            <p className="txt-price">Rp.{product.price}</p>
+          </div>
         </div>
-        <button className="btn" onClick={(e) => handleAddToCart(e, product)}>
+        <button
+          className="btn btn-list"
+          onClick={(e) => handleAddToCart(e, product)}
+        >
           Add
         </button>
+        &nbsp;
         <Link to={"/edit/" + product.id}>
-          <button type="button" className="btn">
-            Edit
-          </button>
+          <button className="btn btn-list">Edit</button>
         </Link>
         &nbsp;
-        <button type="button" className="btn" onClick={() => deleteConfirm()}>
+        <button className="btn btn-list" onClick={() => deleteConfirm()}>
           Delete
         </button>
       </div>

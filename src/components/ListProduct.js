@@ -24,11 +24,118 @@ class list extends Component {
       isOpen: false,
       user: localStorage.getItem("user"),
       token: sessionStorage.getItem("token"),
+      show: false,
     };
     this._menuToggle = this._menuToggle.bind(this);
     this._handleDocumentClick = this._handleDocumentClick.bind(this);
   }
-
+  cartNotNull() {
+    const { cartItems } = this.state;
+    return (
+      <>
+        <div style={{ marginLeft: 20, marginRight: 20 }}>
+          {cartItems.map((cart, i) => {
+            return (
+              <div key={cart.id} style={{ height: "120px", marginTop: 5 }}>
+                <div key={i} style={{ float: "left", marginRight: 5 }}>
+                  <img
+                    style={{ width: "30vw" }}
+                    src={cart.image.replace(
+                      "localhost:8012",
+                      "54.158.219.28:8011"
+                    )}
+                    alt={cart.name}
+                  />
+                </div>
+                <p style={{ fontWeight: "bold" }}>{cart.name}</p>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "auto auto",
+                  }}
+                >
+                  <div>
+                    <button
+                      className="btnaddreduce"
+                      onClick={(e) => this.handleReduceToCart(e, cart)}
+                    >
+                      -
+                    </button>
+                    <label>{cart.count}</label>
+                    <button
+                      className="btnaddreduce"
+                      onClick={(e) => this.handleAddToCart(e, cart)}
+                    >
+                      +
+                    </button>
+                  </div>
+                  <div>
+                    <p style={{ float: "right" }}>Rp.{cart.price} </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+          <div>
+            <div>
+              <p style={{ float: "left" }}>Total :</p>
+              <p style={{ float: "right" }}>
+                Rp.
+                {cartItems.reduce((a, c) => a + c.price * c.count, 0)}*
+              </p>
+            </div>
+          </div>
+        </div>
+        <div style={{ marginLeft: 20, marginRight: 20, marginBottom: 20 }}>
+          <button
+            style={{
+              backgroundColor: "#57CAD5",
+              border: "none",
+              color: "white",
+              float: "right",
+              marginRight: 20,
+            }}
+            onClick={() => this.Checkout()}
+          >
+            Checkout
+          </button>
+          <button
+            style={{
+              backgroundColor: "#F24F8A",
+              border: "none",
+              color: "white",
+              float: "right",
+              marginRight: 20,
+            }}
+            onClick={() => this.cancelOrder()}
+          >
+            Cancel
+          </button>
+        </div>
+      </>
+    );
+  }
+  cartNull() {
+    return (
+      <>
+        <div>
+          <div>
+            <img
+              src={require("../assets/image/restaurant.png")}
+              alt="restaurant"
+              style={{ width: "30%", marginLeft: "35%" }}
+            />
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <p style={{ fontSize: 20, fontWeight: "bold" }}>
+              You Cart Is Empty
+            </p>
+            <p style={{ marginTop: -10 }}>please add some items from menu</p>
+          </div>
+        </div>
+      </>
+    );
+  }
   getProduct = async () => {
     Axios.get("http://54.158.219.28:8011/api/v1/product", {
       header: { "x-access-token": localStorage.getItem("token") },
@@ -119,7 +226,6 @@ class list extends Component {
     }
   }
   handleRemoveFromCart = (e, product) => {
-    console.log(product);
     this.setState((state) => {
       const cartItems = state.cartItems.filter((a) => a.id !== product.id);
       localStorage.setItem("cartItems", JSON.stringify(cartItems));
@@ -320,6 +426,12 @@ class list extends Component {
   history = () => {
     this.props.history.push("/history");
   };
+  cartComp = (test) => {
+    this.props.history.push("/cart", (test = this.state.cartItems));
+  };
+  modalCart(open) {
+    this.setState({ show: open });
+  }
   render() {
     let links = (
       <div>
@@ -380,61 +492,80 @@ class list extends Component {
     });
 
     let menuStatus = this.state.isOpen ? "isopen" : "";
+    const { cartItems } = this.state;
     return (
-      // <Provider store={store}>
-      <div className="body">
-        <div>
-          <div style={{ width: "100%", display: "inline-block" }}>
-            <div className="list">
-              <div ref="root">
-                <div className="menubar">
-                  <Filter handleChangeSort={this.handleChangeSort} />
-                  <input
-                    type="search"
-                    placeholder="search"
-                    value={this.state.search}
-                    onChange={this.updateSearch.bind(this)}
-                  />
+      <div className="list-area">
+        <div className="list">
+          <div ref="root">
+            <div className="menubar">
+              <button
+                onClick={() => this.modalCart(true)}
+                className="btn-cart"
+                style={{
+                  backgroundColor: "transparent",
+                  border: "none",
+                  float: "right",
+                  marginTop: 15,
+                }}
+              >
+                <img
+                  width="30"
+                  src={require("../assets/image/cart.png")}
+                  alt="cart"
+                />
+              </button>
 
-                  <div className="hambclicker" onClick={this._menuToggle}></div>
-                  <div id="hambmenu" className={menuStatus}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                  <div className="title">
-                    <span>{this.props.title}</span>
-                  </div>
-                </div>
+              <Filter handleChangeSort={this.handleChangeSort} />
+              <input
+                type="search"
+                placeholder="search"
+                value={this.state.search}
+                onChange={this.updateSearch.bind(this)}
+              />
 
-                <div className={menuStatus} id="menu">
-                  <ul>{links}</ul>
-                </div>
+              <div className="hambclicker" onClick={this._menuToggle}></div>
+              <div id="hambmenu" className={menuStatus}>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
               </div>
-
-              {renderData}
             </div>
-            <div className="cart">
-              <div className="nav-cart" style={{ marginTop: 20 }}>
-                <p className="title-cart">Cart Items</p>
-              </div>
-              <this.MyVerticallyCenteredModal
-                show={this.state.setModalShow}
-                onHide={() => this.setState({ setModalShow: false })}
-              />
-              <Cart
-                cartItems={this.state.cartItems}
-                handleRemoveFromCart={this.handleRemoveFromCart}
-                handleAddToCart={this.handleAddToCart}
-                handleReduceToCart={this.handleReduceToCart}
-                openModal={this.Checkout}
-                verticalModal={this.MyVerticallyCenteredModal}
-                cancelOrder={this.cancelOrder}
-              />
+
+            <div className={menuStatus} id="menu">
+              <ul>{links}</ul>
             </div>
           </div>
+
+          {renderData}
         </div>
+        <div className="cart">
+          <div className="nav-cart" style={{ marginTop: 20 }}>
+            <p className="title-cart">Cart Items</p>
+          </div>
+          <this.MyVerticallyCenteredModal
+            show={this.state.setModalShow}
+            onHide={() => this.setState({ setModalShow: false })}
+          />
+          <Cart
+            cartItems={this.state.cartItems}
+            handleRemoveFromCart={this.handleRemoveFromCart}
+            handleAddToCart={this.handleAddToCart}
+            handleReduceToCart={this.handleReduceToCart}
+            openModal={this.Checkout}
+            verticalModal={this.MyVerticallyCenteredModal}
+            cancelOrder={this.cancelOrder}
+          />
+        </div>
+        <Modal
+          show={this.state.show}
+          onHide={() => this.setState({ show: false })}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Cart Items</Modal.Title>
+          </Modal.Header>
+          {cartItems.length === 0 ? this.cartNull() : this.cartNotNull()}
+        </Modal>
       </div>
       // </Provider>
     );

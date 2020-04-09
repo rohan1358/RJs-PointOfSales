@@ -265,35 +265,31 @@ class list extends Component {
     let menuStatus = this.state.isOpen ? "isopen" : "";
 
     return (
-      <div className="body">
-        <div style={{ width: "100%", display: "inline-block" }}>
-          <div className="list-history">
-            <div ref="root">
-              <div className="menubar">
-                <div>
-                  <label className="lbl-hstry">History</label>
-                </div>
-                <div className="hambclicker" onClick={this._menuToggle}></div>
-                <div id="hambmenu" className={menuStatus}>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-                <div className="title">
-                  <span>{this.props.title}</span>
-                </div>
-              </div>
-
-              <div className={menuStatus} id="menu">
-                <ul>{links}</ul>
-              </div>
+      <div className="history-area">
+        <div className="list-history">
+          <div className="menubar">
+            <div>
+              <label className="lbl-hstry">History</label>
+            </div>
+            <div className="hambclicker" onClick={this._menuToggle}></div>
+            <div id="hambmenu" className={menuStatus}>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div className="title">
+              <span>{this.props.title}</span>
             </div>
           </div>
-          <div>{this.bodoamat()}</div>
-          <div style={{ marginRight: 50, marginLeft: 50, marginTop: 20 }}>
-            {this.tblHistory()}
+
+          <div className={menuStatus} id="menu">
+            <ul>{links}</ul>
           </div>
+        </div>
+        <div>{this.bodoamat()}</div>
+        <div style={{ marginRight: 50, marginLeft: 50, marginTop: 20 }}>
+          {this.tblHistory()}
         </div>
       </div>
     );

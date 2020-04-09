@@ -11,7 +11,8 @@ import store from "../src/components/store";
 import "bootstrap/dist/css/bootstrap.min.css";
 import History from "../src/components/History";
 import Register from '../src/components/Register'
-
+import CartComp from './components/CartComp'
+import '../src/assets/css/Styless.css'
 import { BrowserRouter, Route } from "react-router-dom";
 
 // import AppWithRedux from './components/App.js'
@@ -24,6 +25,7 @@ const AppWithRouter = () => (
     <Route path="/edit/:id" component={EditProduct} />
     <Route exact path="/history" component={History} />
     <Route exact path="/register" component={Register} />
+    <Route exact path="/cart" component={CartComp} />
   </BrowserRouter>
 );
 const AppWithRedux = () => (

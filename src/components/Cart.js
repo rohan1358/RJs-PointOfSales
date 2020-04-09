@@ -33,7 +33,7 @@ export default class Cart extends Component {
       <div style={{ textAlign: "center" }}>
         <img
           alt="img"
-          width="300"
+          width="40%"
           src={require("../assets/image/restaurant.png")}
         ></img>
         <p className="cartnull">You Cart Is Empty</p>
@@ -45,7 +45,7 @@ export default class Cart extends Component {
   cartNotNull() {
     const { cartItems } = this.props;
     return (
-      <div className="crt-itm">
+      <div style={{ backgroundColor: "yellow" }} className="crt-itm">
         {cartItems.map((item) => (
           <div key={item.id}>
             <img
@@ -117,14 +117,14 @@ export default class Cart extends Component {
             </div>
           </div>
         ))}
-        <div className="fixed">
+        <div>
           <div>
             <ul style={{ listStyleType: "none", fontSize: 25 }}>
+              <li>Total :</li>
               <li style={{ float: "right", marginRight: 5 }}>
                 Rp.
                 {cartItems.reduce((a, c) => a + c.price * c.count, 0)}*
               </li>
-              <li>Total :</li>
             </ul>
           </div>
           <div style={{ marginLeft: 20 }}>
