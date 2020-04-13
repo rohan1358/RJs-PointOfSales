@@ -11,6 +11,7 @@
 - Backend (use my repository which name is BackEnd-Point-Of-Sales for Backend)
 - VSCode
 - Command Promd
+- Node
 
 ## Features
 - Register & Login
