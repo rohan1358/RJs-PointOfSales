@@ -1,6 +1,9 @@
-## description
-
-this is simple web Point Of Sales 
+ 
+<h1 align="center">ReactJs - Point Of Sales</h1>
+<p align="center">
+  <img width="300" height="auto" src="http://34.226.203.160:3000/static/media/logo.e62e8c39.png">
+</p>
+### this is simple web Point Of Sales
 
 ## Require
 
