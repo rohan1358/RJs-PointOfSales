@@ -45,7 +45,7 @@ $npm start
 </p>
 
 
-## Link this Project (FrontEnd)
+## Demo
 * [`RJs-PointOfSales`](https://bit.ly/2R3t0bw)
 
   
