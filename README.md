@@ -37,8 +37,10 @@ $npm start
 <img src="https://user-images.githubusercontent.com/28683986/77813163-eb3b4b80-70d8-11ea-89d0-dcbead8332f7.PNG" width=500 />
 <img src="https://user-images.githubusercontent.com/28683986/77813165-ec6c7880-70d8-11ea-870d-269e299a8601.PNG" width=500 />
 
-  </p>
-## Deployed Project
+</p>
+
+
+## Deployed this Project (FrontEnd)
 * [`RJs-PointOfSales`](https://bit.ly/2R3t0bw)
 
   
