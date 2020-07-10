@@ -94,6 +94,7 @@ class list extends Component {
               color: "white",
               float: "right",
               marginRight: 20,
+              borderRadius: 5,
             }}
             onClick={() => this.Checkout()}
           >
@@ -106,6 +107,7 @@ class list extends Component {
               color: "white",
               float: "right",
               marginRight: 20,
+              borderRadius: 5,
             }}
             onClick={() => this.cancelOrder()}
           >
@@ -242,8 +244,8 @@ class list extends Component {
         if (cp.id === product.id) {
           cp.count += 1;
           productAlreadyInCart = true;
-          if (cp.count === product.stock) {
-            alert("cant add to cart");
+          if (cp.count >= product.stock) {
+            alert("cant add to cart because because the stock has run out");
             cp.count -= 1;
           }
         }
@@ -267,10 +269,6 @@ class list extends Component {
           } else {
             cp.count += -1;
           }
-        }
-        if (cp.count >= product.stock) {
-          alert("cant reduce to cart");
-          cp.count -= 1;
         }
       });
       // if (!productAlreadyInCart) {

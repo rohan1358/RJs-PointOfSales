@@ -224,6 +224,14 @@ li a {
 .cart-list {
   padding: 20px;
 }
+.shadow-cart {
+  -webkit-box-shadow: 0px 0px 17px -5px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 17px -5px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 17px -5px rgba(0, 0, 0, 0.75);
+  background-color: #ccc;
+  padding: 10px;
+  border-radius: 5px;
+}
 @media screen and (max-width: 600) {
   div.cart {
     display: block;
@@ -237,7 +245,7 @@ li a {
   border-radius: 60px;
   float: left;
   margin-right: 10px;
-  margin: 10px;
+  margin: 5px;
   border: 10px;
   float: "left";
   margin: 10px;
@@ -522,13 +530,11 @@ span.psw {
 .btn-cart {
   display: none;
 }
+
 .img-list {
-  margin-top: 20px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  margin: 15px;
   width: 150px;
   height: 100px;
-  margin-left: 18px;
   border: 1px solid #354a61;
 }
 .txt-nameProduct {
@@ -564,7 +570,7 @@ span.psw {
     border-radius: 60px;
     float: left;
     margin-right: 10px;
-    margin: 10px;
+    margin: 5px;
     border: 10px;
     background-color: transparent;
     float: "left";
@@ -594,12 +600,23 @@ span.psw {
 }
 .btn.btn-list {
   border: 1px solid #ab9898;
+  height: 30px;
+  padding-top: 0px;
+  padding: 0px 10px 0px 10px;
 }
-.img-area{
-  background-color: #ccc;
+.img-area {
   border: 5px green;
   border-top: #354a61;
 }
-.btnaddreduce{
+.btnaddreduce {
   border: none;
+}
+.btncncl {
+  border: "none";
+  color: "white";
+  float: "right";
+  margin-right: 20;
+}
+.red {
+  color: red;
 }

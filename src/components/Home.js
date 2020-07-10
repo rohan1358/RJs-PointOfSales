@@ -38,7 +38,9 @@ function Home({ product, refresh, handleAddToCart, deleteConfirm }) {
   };
   return (
     <div className="rounded">
-      <div>
+      <div
+        className="shadow-cart"
+      >
         <div>
           <div className="img-area">
             <img
@@ -66,7 +68,11 @@ function Home({ product, refresh, handleAddToCart, deleteConfirm }) {
           <button className="btn btn-list">Edit</button>
         </Link>
         &nbsp;
-        <button className="btn btn-list" onClick={() => deleteConfirm()}>
+        <button
+          className="btn btn-list "
+          style={{ backgroundColor: "#ff1f1f", color: "white" }}
+          onClick={() => deleteConfirm()}
+        >
           Delete
         </button>
       </div>

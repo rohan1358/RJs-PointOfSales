@@ -38,11 +38,15 @@ class AddProduct extends Component {
     formData.append("image", this.state.image);
     await Axios.post("http://54.158.219.28:8011/api/v1/product/", formData, {
       headers: { "content-type": "multipart/form-data" },
-    }).then(
-      setTimeout(() => {
-        this.props.history.push("/");
-      },1000)
-    );
+    })
+      .then(
+        setTimeout(() => {
+          this.props.history.push("/");
+        }, 1000)
+      )
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   componentDidMount = () => {
