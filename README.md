@@ -29,7 +29,7 @@ $cd RJs-PointOfSales
 $npm install
 ```
 
-Before run this, you must run backend first, then
+Before run this, you must run backend first, then running
 ```bash
 $npm start
 ```
@@ -45,7 +45,7 @@ $npm start
 </p>
 
 
-## Deployed this Project (FrontEnd)
+## Demo
 * [`RJs-PointOfSales`](https://bit.ly/2R3t0bw)
 
   
