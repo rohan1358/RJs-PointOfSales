@@ -123,7 +123,7 @@ class list extends Component {
     );
   }
   listHistory = async () => {
-    Axios.get("http://54.158.219.28:8011/api/v1/order");
+    Axios.get("http://100.27.2.23:8012/api/v1/order");
   };
   componentDidMount() {
     if (sessionStorage.getItem("token") === null) {
@@ -131,24 +131,24 @@ class list extends Component {
     } else if (sessionStorage.getItem("token") === "undefined") {
       this.props.history.push("/");
     }
-    Axios.get("http://54.158.219.28:8011/api/v1/order").then((res) => {
+    Axios.get("http://100.27.2.23:8012/api/v1/order").then((res) => {
       const history = res.data;
       // const history = JSON.parse(story);
       this.setState({ history });
     });
-    Axios.get("http://54.158.219.28:8011/api/v1/order/todayIncome").then(
+    Axios.get("http://100.27.2.23:8012/api/v1/order/todayIncome").then(
       (res) => {
         const todayIncome = res.data;
         this.setState({ todayIncome });
       }
     );
-    Axios.get("http://54.158.219.28:8011/api/v1/order/yearincome").then(
+    Axios.get("http://100.27.2.23:8012/api/v1/order/yearincome").then(
       (res) => {
         const yearIncome = res.data;
         this.setState({ yearIncome });
       }
     );
-    Axios.get("http://54.158.219.28:8011/api/v1/order/allorder").then((res) => {
+    Axios.get("http://100.27.2.23:8012/api/v1/order/allorder").then((res) => {
       const allOrder = res.data;
       this.setState({ allOrder });
     });

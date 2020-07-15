@@ -51,7 +51,7 @@ class Login extends Component {
       alert("password tidak boleh kurang dari 5");
     } else {
       axios
-        .post("http://54.158.219.28:8011/api/v1/user/insert", this.state)
+        .post("http://100.27.2.23:8012/api/v1/user/insert", this.state)
         .then(response => {
           this.setState({
             loggedIn: true

@@ -36,7 +36,7 @@ class AddProduct extends Component {
     formData.append("id_categori", this.state.id_categori);
     formData.append("stock", this.state.stock);
     formData.append("image", this.state.image);
-    await Axios.post("http://54.158.219.28:8011/api/v1/product/", formData, {
+    await Axios.post("http://100.27.2.23:8012/api/v1/product/", formData, {
       headers: { "content-type": "multipart/form-data" },
     })
       .then(

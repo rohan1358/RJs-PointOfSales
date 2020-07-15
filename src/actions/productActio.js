@@ -1,7 +1,7 @@
 import {GET_PRODUCT} from './type'
 import Axios from 'axios'
 
-const URL = "http://localhost:8080/api/v1/product"
+const URL = "http://100.27.2.23:8012/api/v1/product"
 
 export const fetchProduct = () => {
     return {

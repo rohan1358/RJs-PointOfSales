@@ -28,7 +28,7 @@ class EditProduct extends Component {
       this.props.history.push("/");
     }
     const id = this.props.match.params.id;
-    Axios.get(`http://54.158.219.28:8011/api/v1/product/` + id)
+    Axios.get(`http://100.27.2.23:8012/api/v1/product/` + id)
       .then(res => {
         this.setState({
           name: res.data[0].name,
@@ -86,7 +86,7 @@ class EditProduct extends Component {
     formData.append("image", this.state.image);
 
     Axios.patch(
-      "http://54.158.219.28:8011/api/v1/product/" + this.props.match.params.id,
+      "http://100.27.2.23:8012/api/v1/product/" + this.props.match.params.id,
       formData,
       { headers: { "content-type": "multipart/form-data" } }
     )

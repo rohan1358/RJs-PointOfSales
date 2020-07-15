@@ -50,7 +50,7 @@ export default class Cart extends Component {
           <div key={item.id}>
             <img
               alt="img"
-              src={item.image.replace("localhost:8012", "54.158.219.28:8011")}
+              src={item.image.replace("localhost:8012", "100.27.2.23:8012")}
               style={{
                 float: "left",
                 width: 100,

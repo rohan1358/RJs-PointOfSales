@@ -10,7 +10,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 function Home({ product, refresh, handleAddToCart, deleteConfirm }) {
   async function deleteProduct() {
     await Axios.delete(
-      "http://54.158.219.28:8011/api/v1/product/" + product.id
+      "http://100.27.2.23:8012/api/v1/product/" + product.id
     );
 
     return refresh();
@@ -47,7 +47,7 @@ function Home({ product, refresh, handleAddToCart, deleteConfirm }) {
               className="img-list"
               src={product.image.replace(
                 "localhost:8012",
-                "54.158.219.28:8011"
+                "100.27.2.23:8012"
               )}
               alt="img"
             />
