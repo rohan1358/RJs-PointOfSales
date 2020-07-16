@@ -46,7 +46,7 @@ $npm start
 
 
 ## Demo
-* [`RJs-PointOfSales`](https://bit.ly/2R3t0bw)
+* [`RJs-PointOfSales`](https://bit.ly/2DFh63E)
 
   
 ## Related Project (Backend)
