@@ -40,7 +40,7 @@ class list extends Component {
                 <div key={i} style={{ float: "left", marginRight: 5 }}>
                   <img
                     style={{ width: "30vw" }}
-                    src={cart.image.replace("localhost:8012", "100.27.2.23:8012")}
+                    src={cart.image.replace("localhost:8012", "54.157.181.233:8012")}
                     alt={cart.name}
                   />
                 </div>
@@ -136,7 +136,7 @@ class list extends Component {
     );
   }
   getProduct = async () => {
-    Axios.get("http://100.27.2.23:8012/api/v1/product/", {
+    Axios.get("http://54.157.181.233:8012/api/v1/product/", {
       header: { "x-access-token": localStorage.getItem("token") },
     }).then((res) => {
       const product = res.data.result;
@@ -188,7 +188,7 @@ class list extends Component {
         product_id: this.state.carts[i].id,
         qty: this.state.carts[i].qty,
       });
-      Axios.post("http://100.27.2.23:8012/api/v1/order", bodyFormData, {
+      Axios.post("http://54.157.181.233:8012/api/v1/order", bodyFormData, {
         headers: {
           "content-type": "application/x-www-form-urlencoded;charset=utf-8",
           "x-access-token": localStorage.usertoken,
@@ -294,7 +294,7 @@ class list extends Component {
         year: year,
       };
       Axios.post(
-        "http://100.27.2.23:8012/api/v1/order/",
+        "http://54.157.181.233:8012/api/v1/order/",
         qs.stringify(form)
       ).then(console.log("checkout success"));
     });
